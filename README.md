@@ -6,4 +6,4 @@
 
 ---
 Data Source: [Binance API](https://github.com/binance/binance-public-data)
----
+
