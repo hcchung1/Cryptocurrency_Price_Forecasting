@@ -3,3 +3,4 @@
 ## Arthur: 
 ## Requirements:
 ## Environments:
+## Data Source: Binance API
