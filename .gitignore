@@ -5,3 +5,4 @@ data/*.csv
 Reference
 Reference/*
 myenv
+Tables/DQN.pt

@@ -18,7 +18,8 @@ total_rewards = []
 
 K_LINE_NUM = 48
 INPUT_SIZE = K_LINE_NUM * 5 + 4
-device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+
+
 
 class replay_buffer:
     # store experience
@@ -334,23 +335,25 @@ def test(env, model):
 if __name__ == "__main__":
     env = gym.make('futures3-v0') 
     os.makedirs("./Tables", exist_ok=True)
+    device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+    print('device: ', device)
 
     # training section:
 
 
-    for i in range(1):
-        time0 = time.time()
-        print(f"#{i + 1} training progress")
-        train(env, 200)
-        time1 = time.time()
-        print(f"Training time: {time1 - time0} seconds")
-        print ("Win rate: ", env.win_count ,"/", env.win_count + env.dead_count, f"({env.get_win_rate()})")
-        [profit, loss] = env.get_cumulative_profit_loss_ratio()
-        print("Profit Loss Ratio: ",f"{profit} : {loss}" )
-        print ("Final profit rate: ", env.get_profit_rate())
+    # for i in range(1):
+    #     time0 = time.time()
+    #     print(f"#{i + 1} training progress")
+    #     train(env, 200)
+    #     time1 = time.time()
+    #     print(f"Training time: {time1 - time0} seconds")
+    #     print ("Win rate: ", env.win_count ,"/", env.win_count + env.dead_count, f"({env.get_win_rate()})")
+    #     [profit, loss] = env.get_cumulative_profit_loss_ratio()
+    #     print("Profit Loss Ratio: ",f"{profit} : {loss}" )
+    #     print ("Final profit rate: ", env.get_profit_rate())
 
 
-    # testing section:
-    test(env, "./Tables/DQN_GG.pt")
-    env.close()
+    # # testing section:
+    # test(env, "./Tables/DQN_GG.pt")
+    # env.close()
 
