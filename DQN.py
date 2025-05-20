@@ -200,60 +200,68 @@ class Agent:
                 action = dist.sample().item()
         return action
 
-def train(env, episode=200): # Consider renaming episode to num_episodes for clarity
-    # actor_lr, critic_lr can be passed to Agent or hardcoded there
-    agent = Agent(env) # Initializes A2C agent
-
-    rewards_history = [] # To store total reward per episode
-    # writer = SummaryWriter(f'runs/A2C_experiment_{time.time()}') # Example for TensorBoard
-
-    for i_episode in range(episode):
+def evaluate_agent(env, agent, num_eval_episodes=5):
+    """
+    評估 agent 在幾個回合中的平均表現。
+    """
+    total_rewards_eval = []
+    for _ in range(num_eval_episodes):
         state = env.reset()
-        episode_reward = 0 # Renamed 'count' to 'episode_reward' for clarity, or use for steps
-        done = False # Initialize done
-        current_episode_steps = 0
+        episode_reward_eval = 0
+        done_eval = False
+        while not done_eval:
+            action = agent.choose_action(state, testing=True) # 使用確定性動作
+            next_state, reward, done_eval, _ = env.step(action)
+            episode_reward_eval += reward
+            state = next_state
+        total_rewards_eval.append(episode_reward_eval)
+    return np.mean(total_rewards_eval)
 
-        while not done: # Loop until episode is done
-            current_episode_steps += 1
-            agent.count += 1 # Global step counter
+def train(env, num_episodes=200, eval_interval=20, num_eval_episodes=5): # 增加參數
+    agent = Agent(env)
+    rewards_history = []
 
-            # Choose action (testing=False during training to enable sampling)
-            action = agent.choose_action(state, testing=False)
-            
+    best_eval_reward = -float('inf') # 初始化最佳評估獎勵
+    best_actor_model_path = "./Tables/A2C_actor_best.pt"
+    best_critic_model_path = "./Tables/A2C_critic_best.pt"
+    os.makedirs("./Tables", exist_ok=True) # 確保目錄存在
+
+    for i_episode in range(num_episodes):
+        state = env.reset()
+        episode_reward = 0
+        done = False
+        # current_episode_steps = 0 # 如果需要追蹤步數
+
+        while not done:
+            # current_episode_steps += 1
+            agent.count += 1
+            action = agent.choose_action(state, testing=False) # 訓練時允許探索
             next_state, reward, done, info = env.step(action)
             episode_reward += reward
-
             agent.buffer.insert(state, int(action), reward, next_state, int(done))
 
-            if len(agent.buffer) >= agent.batch_size: # Start learning when buffer has enough
-                # Consider learning more frequently or after N steps rather than just if buffer is full
-                # For example, learn every K steps: if agent.count % K == 0: agent.learn()
-                agent.learn() 
-            
+            if len(agent.buffer) >= agent.batch_size:
+                agent.learn()
             state = next_state
 
         rewards_history.append(episode_reward)
-        # writer.add_scalar('reward/episode_reward', episode_reward, i_episode) # Tensorboard
-        # writer.add_scalar('params/actor_lr', agent.actor_learning_rate, i_episode) # If LR changes
-        # writer.add_scalar('params/critic_lr', agent.critic_learning_rate, i_episode)
+        print(f"Episode: {i_episode + 1}/{num_episodes}, Total Reward: {episode_reward:.2f}, Info: {info}")
 
-        print(f"Episode: {i_episode}, Total Reward: {episode_reward}, Info: {info}")
+        # 定期評估模型
+        if (i_episode + 1) % eval_interval == 0:
+            avg_eval_reward = evaluate_agent(env, agent, num_eval_episodes)
+            print(f"Evaluation after Episode {i_episode + 1}: Average Reward = {avg_eval_reward:.2f}")
+            if avg_eval_reward > best_eval_reward:
+                best_eval_reward = avg_eval_reward
+                torch.save(agent.actor.state_dict(), best_actor_model_path)
+                torch.save(agent.critic.state_dict(), best_critic_model_path)
+                print(f"  New best model saved with Average Reward: {best_eval_reward:.2f}")
 
-        # Epsilon and LR decay logic needs to be removed or adapted for actor/critic LRs
-        # if(i_episode % math.ceil(episode/500) == 0):
-        #     # agent.epsilon *= agent.epsilon_decay_rate # Epsilon not used
-        #     # agent.learning_rate *= agent.learning_rate_decay_rate # Adapt for actor/critic LR if needed
-        #     pass 
-        # print("epsilon: ", agent.epsilon, "learning_rate: ", agent.learning_rate) # Remove or adapt
-
-    # Save models after training
-    os.makedirs("./Tables", exist_ok=True) # Ensure directory exists
+    # 保存訓練結束時的最終模型 (可選，因為我們已經有 best 模型了)
     torch.save(agent.actor.state_dict(), "./Tables/A2C_actor_final.pt")
     torch.save(agent.critic.state_dict(), "./Tables/A2C_critic_final.pt")
-    print("Training finished. Models saved.")
-    
-    # total_rewards.append(rewards_history) # If total_rewards is a global list
-    return rewards_history # Return rewards for plotting or analysis
+    print(f"Training finished. Final models saved. Best evaluation reward: {best_eval_reward:.2f}")
+    return rewards_history
 
 
 def test(env, actor_model_path): # actor_model_path 變數名已針對 A2C
@@ -350,7 +358,7 @@ def test(env, actor_model_path): # actor_model_path 變數名已針對 A2C
     ax1.set_xlabel('Time Ticks (Overall Index)')
 
     # 繪製 profit_rate 線 (使用小點標記所有中間點)
-    ax2.plot(profit_rate_tick, profit_rate, color='red', linestyle='-', marker='.', linewidth=1.5, markersize=4, label='profit_rate (%)')
+    ax2.plot(profit_rate_tick, profit_rate, color='red', linestyle='-', linewidth=1.5, label='profit_rate (%)')
     ax2.set_ylabel('profit_rate (%)', color='red')
 
     # 僅在最後一個點加上三角形標記並註解
@@ -388,7 +396,7 @@ def test(env, actor_model_path): # actor_model_path 變數名已針對 A2C
 
 
 if __name__ == "__main__":
-    env = gym.make('futures1-v0') 
+    env = gym.make('futures4-v0') 
     os.makedirs("./Tables", exist_ok=True)
     device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     print('device: ', device)
@@ -396,19 +404,19 @@ if __name__ == "__main__":
     # training section:
 
 
-    # for i in range(1):
-    #     time0 = time.time()
-    #     print(f"#{i + 1} training progress")
-    #     train(env, 200)
-    #     time1 = time.time()
-    #     print(f"Training time: {time1 - time0} seconds")
-    #     print ("Win rate: ", env.win_count ,"/", env.win_count + env.dead_count, f"({env.get_win_rate()})")
-    #     [profit, loss] = env.get_cumulative_profit_loss_ratio()
-    #     print("Profit Loss Ratio: ",f"{profit} : {loss}" )
-    #     print ("Final profit rate: ", env.get_profit_rate())
+    for i in range(1):
+        time0 = time.time()
+        print(f"#{i + 1} training progress")
+        train(env, 200)
+        time1 = time.time()
+        print(f"Training time: {time1 - time0} seconds")
+        print ("Win rate: ", env.win_count ,"/", env.win_count + env.dead_count, f"({env.get_win_rate()})")
+        [profit, loss] = env.get_cumulative_profit_loss_ratio()
+        print("Profit Loss Ratio: ",f"{profit} : {loss}" )
+        print ("Final profit rate: ", env.get_profit_rate())
 
 
     # testing section:
-    test(env, "./Tables/A2C_actor_final.pt")
+    test(env, "./Tables/A2C_actor_best.pt")
     env.close()
 
