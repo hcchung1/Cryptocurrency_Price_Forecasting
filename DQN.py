@@ -333,7 +333,7 @@ def test(env, model):
 
 
 if __name__ == "__main__":
-    env = gym.make('futures4-v0') 
+    env = gym.make('futures1-v0') 
     os.makedirs("./Tables", exist_ok=True)
     device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     print('device: ', device)
@@ -354,6 +354,6 @@ if __name__ == "__main__":
 
 
     # testing section:
-    test(env, "./Tables/DQN_GG.pt")
+    test(env, "./Tables/DQN.pt")
     env.close()
 
