@@ -392,11 +392,8 @@ def test(env, actor_model_path): # actor_model_path 變數名已針對 A2C
 
     plt.show()
 
-    
-
-
 if __name__ == "__main__":
-    env = gym.make('futures4-v0') 
+    env = gym.make('futures1-v0') 
     os.makedirs("./Tables", exist_ok=True)
     device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     print('device: ', device)
@@ -404,16 +401,16 @@ if __name__ == "__main__":
     # training section:
 
 
-    for i in range(1):
-        time0 = time.time()
-        print(f"#{i + 1} training progress")
-        train(env, 200)
-        time1 = time.time()
-        print(f"Training time: {time1 - time0} seconds")
-        print ("Win rate: ", env.win_count ,"/", env.win_count + env.dead_count, f"({env.get_win_rate()})")
-        [profit, loss] = env.get_cumulative_profit_loss_ratio()
-        print("Profit Loss Ratio: ",f"{profit} : {loss}" )
-        print ("Final profit rate: ", env.get_profit_rate())
+    # for i in range(1):
+    #     time0 = time.time()
+    #     print(f"#{i + 1} training progress")
+    #     train(env, 200)
+    #     time1 = time.time()
+    #     print(f"Training time: {time1 - time0} seconds")
+    #     print ("Win rate: ", env.win_count ,"/", env.win_count + env.dead_count, f"({env.get_win_rate()})")
+    #     [profit, loss] = env.get_cumulative_profit_loss_ratio()
+    #     print("Profit Loss Ratio: ",f"{profit} : {loss}" )
+    #     print ("Final profit rate: ", env.get_profit_rate())
 
 
     # testing section:
