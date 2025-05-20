@@ -7,4 +7,6 @@
 ### Environments: Python 3.10
 ---
 Data Source: [Binance API](https://github.com/binance/binance-public-data)
-
+Reference: 
+- [AI-2024-Final-Project](https://github.com/Otmeal/AI-2024-final-project)
+- [gym Future Trading Environment](https://github.com/leafoliage/gym-futures-trading/tree/dev)
