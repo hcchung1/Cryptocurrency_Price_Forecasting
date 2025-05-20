@@ -20,7 +20,6 @@ K_LINE_NUM = 48
 INPUT_SIZE = K_LINE_NUM * 5 + 4
 
 
-
 class replay_buffer:
     # store experience
     def __init__(self, capacity):
@@ -85,8 +84,8 @@ class Net(nn.Module):
 
 
 class Agent:
-    def __init__(
-        self, env, epsilon = 0.05, learning_rate=0.002, GAMMA=0.99, batch_size=50, capacity=2000
+    def __init__( # 0.05/0.002
+        self, env, epsilon = 0.05, learning_rate=0.0025, GAMMA=0.99, batch_size=128, capacity=10000
     ):
         """
         The agent learning how to control the action of the cart pole.
@@ -177,7 +176,7 @@ class Agent:
         loss.backward()
         self.optimizer.step()
         # End your code
-        torch.save(self.target_net.state_dict(), "./Tables/DQN.pt")
+        # torch.save(self.target_net.state_dict(), "./Tables/DQN_01.pt")
 
     def choose_action(self, state):
         """
@@ -224,7 +223,7 @@ def train(env, episode=200):
 
 
     agent = Agent(env)
-
+    best_profit = -float("inf")
     rewards = []
     for i_episode in range(episode):
         state = env.reset()
@@ -251,6 +250,10 @@ def train(env, episode=200):
                 break
             state = next_state
         print(i_episode, info)
+        if info["total_asset"] > best_profit:
+            best_profit = info["total_asset"]
+            torch.save(agent.target_net.state_dict(), "./Tables/DQN_0520.pt")
+            print(">>> 發現更佳模型，已覆寫.pt")
 
 
         if(i_episode % math.ceil(episode/500) == 0):
@@ -327,13 +330,13 @@ def test(env, model):
     #plt.xlabel('time')
     #plt.ylabel('value')
     #plt.legend()
-    plt.show()
+    plt.savefig('reward_curve.png')
 
     
 
 
 if __name__ == "__main__":
-    env = gym.make('futures4-v0') 
+    env = gym.make('futures3-v0') 
     os.makedirs("./Tables", exist_ok=True)
     device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     print('device: ', device)
@@ -341,19 +344,19 @@ if __name__ == "__main__":
     # training section:
 
 
-    # for i in range(1):
-    #     time0 = time.time()
-    #     print(f"#{i + 1} training progress")
-    #     train(env, 200)
-    #     time1 = time.time()
-    #     print(f"Training time: {time1 - time0} seconds")
-    #     print ("Win rate: ", env.win_count ,"/", env.win_count + env.dead_count, f"({env.get_win_rate()})")
-    #     [profit, loss] = env.get_cumulative_profit_loss_ratio()
-    #     print("Profit Loss Ratio: ",f"{profit} : {loss}" )
-    #     print ("Final profit rate: ", env.get_profit_rate())
+    for i in range(1):
+        time0 = time.time()
+        print(f"#{i + 1} training progress")
+        train(env, 200)
+        time1 = time.time()
+        print(f"Training time: {time1 - time0} seconds")
+        print ("Win rate: ", env.win_count ,"/", env.win_count + env.dead_count, f"({env.get_win_rate()})")
+        [profit, loss] = env.get_cumulative_profit_loss_ratio()
+        print("Profit Loss Ratio: ",f"{profit} : {loss}" )
+        print ("Final profit rate: ", env.get_profit_rate())
 
 
     # testing section:
-    test(env, "./Tables/DQN_GG.pt")
+    test(env, "./Tables/DQN_0520.pt")
     env.close()
 
