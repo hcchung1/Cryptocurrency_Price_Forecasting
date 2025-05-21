@@ -206,12 +206,12 @@ def evaluate_agent(env, agent, num_eval_episodes=5):
     """
     total_rewards_eval = []
     for _ in range(num_eval_episodes):
-        state = env.reset()
+        state, _ = env.reset()
         episode_reward_eval = 0
         done_eval = False
         while not done_eval:
             action = agent.choose_action(state, testing=True) # 使用確定性動作
-            next_state, reward, done_eval, _ = env.step(action)
+            next_state, reward, done_eval, _, _ = env.step(action)
             episode_reward_eval += reward
             state = next_state
         total_rewards_eval.append(episode_reward_eval)
@@ -227,7 +227,7 @@ def train(env, num_episodes=200, eval_interval=20, num_eval_episodes=5): # 增�
     os.makedirs("./Tables", exist_ok=True) # 確保目錄存在
 
     for i_episode in range(num_episodes):
-        state = env.reset()
+        state, _ = env.reset()
         episode_reward = 0
         done = False
         # current_episode_steps = 0 # 如果需要追蹤步數
@@ -236,7 +236,7 @@ def train(env, num_episodes=200, eval_interval=20, num_eval_episodes=5): # 增�
             # current_episode_steps += 1
             agent.count += 1
             action = agent.choose_action(state, testing=False) # 訓練時允許探索
-            next_state, reward, done, info = env.step(action)
+            next_state, reward, done, _, info = env.step(action)
             episode_reward += reward
             agent.buffer.insert(state, int(action), reward, next_state, int(done))
 
@@ -301,12 +301,12 @@ def test(env, actor_model_path): # actor_model_path 變數名已針對 A2C
             break
 
         try:
-            state = env.reset(start_tick=current_start_tick)
+            state, _ = env.reset(start_tick=current_start_tick)
             # print(f"  New test segment starting from tick: {current_start_tick}") # 可選日誌
         except AttributeError: # Fallback if env doesn't have start_tick or if it's for the first episode only
             # 確保 env.reset() 在不帶參數時也能工作，或者在循環開始前處理好第一次 reset
             if current_start_tick == K_LINE_NUM: # 通常只在第一次 reset 時不帶 start_tick
-                 state = env.reset()
+                 state, _ = env.reset()
             else:
                 print("Environment cannot be reset with start_tick for subsequent segments, or data exhausted.")
                 break
@@ -320,7 +320,7 @@ def test(env, actor_model_path): # actor_model_path 變數名已針對 A2C
         while not done:
             # episode_steps += 1
             action = testing_agent.choose_action(state, testing=True) # 使用 Actor 選擇動作
-            next_state, _, done, info = env.step(action)
+            next_state, _, done, _, info = env.step(action)
 
             if done:
                 current_profit = env.get_profit_rate()
@@ -401,16 +401,16 @@ if __name__ == "__main__":
     # training section:
 
 
-    # for i in range(1):
-    #     time0 = time.time()
-    #     print(f"#{i + 1} training progress")
-    #     train(env, 200)
-    #     time1 = time.time()
-    #     print(f"Training time: {time1 - time0} seconds")
-    #     print ("Win rate: ", env.win_count ,"/", env.win_count + env.dead_count, f"({env.get_win_rate()})")
-    #     [profit, loss] = env.get_cumulative_profit_loss_ratio()
-    #     print("Profit Loss Ratio: ",f"{profit} : {loss}" )
-    #     print ("Final profit rate: ", env.get_profit_rate())
+    for i in range(1):
+        time0 = time.time()
+        print(f"#{i + 1} training progress")
+        train(env, 200)
+        time1 = time.time()
+        print(f"Training time: {time1 - time0} seconds")
+        print ("Win rate: ", env.win_count ,"/", env.win_count + env.dead_count, f"({env.get_win_rate()})")
+        [profit, loss] = env.get_cumulative_profit_loss_ratio()
+        print("Profit Loss Ratio: ",f"{profit} : {loss}" )
+        print ("Final profit rate: ", env.get_profit_rate())
 
 
     # testing section:
