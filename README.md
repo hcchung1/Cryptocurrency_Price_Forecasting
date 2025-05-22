@@ -3,7 +3,7 @@
 ### Arthur: Henry Chung(鍾承翰), Eric Chen(陳景寬), 范伯綱, Patrick Wu
 
 
-### Requirements: Pytorch
+### Requirements: Pytorch, ... see more in `requirements.txt`
 ### Environments:
 
 - Python 3.10
