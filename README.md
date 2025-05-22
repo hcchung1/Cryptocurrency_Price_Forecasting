@@ -4,7 +4,11 @@
 
 
 ### Requirements: Pytorch
-### Environments: Python 3.10
+### Environments:
+
+- Python 3.10
+- Gym Environment
+
 ---
 Data Source: [Binance API](https://github.com/binance/binance-public-data)
 
