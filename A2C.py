@@ -264,7 +264,7 @@ def train(env, num_episodes=200, eval_interval=20, num_eval_episodes=5): # 增�
     return rewards_history
 
 
-def test(env, actor_model_path): # actor_model_path 變數名已針對 A2C
+def test(env, actor_model_path, month = None): # actor_model_path 變數名已針對 A2C
     """
     Test the A2C agent on the given environment.
     Parameters:
@@ -349,7 +349,7 @@ def test(env, actor_model_path): # actor_model_path 變數名已針對 A2C
         print("No data to plot. Profit rates were not recorded.")
         return
 
-    fig, ax1 = plt.subplots()
+    fig, ax1 = plt.subplots(figsize=(10, 7))
     ax2 = ax1.twinx()
 
     # 繪製價格曲線
@@ -371,14 +371,18 @@ def test(env, actor_model_path): # actor_model_path 變數名已針對 A2C
         ax2.annotate(
             f'{last_profit_rate_plot:.2f}%',
             xy=(last_tick_plot, last_profit_rate_plot),
-            xytext=(10, 0), # 在點的右邊偏移 10 個點
+            xytext=(0, 10),
             textcoords='offset points',
             ha='left', # 水平對齊
             va='center', # 垂直對齊
             arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=.2', color='black') # 可選的箭頭樣式
         )
+        
+    if month is not None:
+        plt.title(f'ETH Price & Agent Profit Rate Over Time (Month: {month})')
+    else:
+        plt.title('ETH Price & Agent Profit Rate Over Time')
 
-    plt.title('ETH Price & Agent Profit Rate Over Time')
     # 合併圖例
     lines, labels = ax1.get_legend_handles_labels()
     lines2, labels2 = ax2.get_legend_handles_labels()
@@ -389,8 +393,11 @@ def test(env, actor_model_path): # actor_model_path 變數名已針對 A2C
     else: # 如果 ax2 沒有圖例項（例如 profit_rate 為空）
         ax1.legend(loc='upper left', bbox_to_anchor=(0.05, 0.95))
 
-
-    plt.show()
+    if month is not None:
+        plt.savefig(f'./plot/A2C_actor_best_{month}.png')
+    else:
+        plt.savefig(f'./plot/A2C_actor_best.png')
+    # plt.show()
 
 if __name__ == "__main__":
     env = gym.make('futures1-v0') 
@@ -414,6 +421,13 @@ if __name__ == "__main__":
 
 
     # testing section:
-    test(env, "./Tables/A2C_actor_best.pt")
+    test(env, "./Tables/A2C_actor_best.pt", month = "1")
+    env = gym.make('futures2-v0')
+    test(env, "./Tables/A2C_actor_best.pt", month = "2")
+    env = gym.make('futures3-v0')
+    test(env, "./Tables/A2C_actor_best.pt", month = "3")
+    env = gym.make('futures4-v0')
+    test(env, "./Tables/A2C_actor_best.pt", month = "4")
+    plt.show()
     env.close()
 
