@@ -95,15 +95,6 @@ After training and evaluation:
 
 ---
 
-## 🛠️ TODO / Notes
-
-* [ ] Full compatibility with `gym==0.26+` step API (`done`, `truncated`)
-* [ ] Vectorized training support (`SyncVectorEnv`)
-* [ ] Performance optimization (batch processing, GPU utilization)
-* [ ] Logging via TensorBoard
-
----
-
 ## 👨‍💻 Maintainer
 
 This project was implemented by [@hcchung1](https://github.com/hcchung1) for the 2025 Artificial Intelligence Final Project.
