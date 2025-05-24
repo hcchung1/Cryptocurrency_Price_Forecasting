@@ -5,6 +5,16 @@ This project applies reinforcement learning — specifically **Advantage Actor-C
 ## 📁 Branch: `Model-A2C`
 This branch implements the A2C algorithm for training an agent to learn profitable trading behaviors in a simulated crypto market.
 
+### 📈 Profit Rate Results
+
+| Month | Plot |
+|-------|------|
+| Jan   | ![](./imgs/train_by_1/A2C_actor_best_1.png) |
+| Feb   | ![](./imgs/train_by_1/A2C_actor_best_2.png) |
+| Mar   | ![](./imgs/train_by_1/A2C_actor_best_3.png) |
+| Apr   | ![](./imgs/train_by_1/A2C_actor_best_4.png) |
+
+
 ---
 
 ## 📌 Features
