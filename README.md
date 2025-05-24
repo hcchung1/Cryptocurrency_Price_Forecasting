@@ -2,10 +2,10 @@
 
 This project applies reinforcement learning — specifically **Advantage Actor-Critic (A2C)** — to forecast cryptocurrency price trends and simulate trading strategies. The environment is custom-built based on historical **ETHUSDT** futures market data from Binance.
 
-## 📁 Branch: `Model-A2C`
+## Branch: `Model-A2C`
 This branch implements the A2C algorithm for training an agent to learn profitable trading behaviors in a simulated crypto market.
 
-## 📈 Trading Profit Rate (ETHUSDT, Jan–Apr 2025)
+## Trading Profit Rate (ETHUSDT, Jan–Apr 2025)
 
 <table>
   <tr>
@@ -20,17 +20,17 @@ This branch implements the A2C algorithm for training an agent to learn profitab
 
 ---
 
-## 📌 Features
+## Features
 
-- ✅ Custom `gym`-based trading environment (`trading_env.py`)
-- ✅ Advantage Actor-Critic (A2C) training architecture (`A2C.py`)
-- ✅ Dynamic position sizing (long/short/hold) with 19 discrete actions
-- ✅ Evaluation with test-time profit plotting
-- ✅ Binance Futures (ETHUSDT, hourly kline data, Jan–Apr 2025)
+- Custom `gym`-based trading environment (`trading_env.py`)
+- Advantage Actor-Critic (A2C) training architecture (`A2C.py`)
+- Dynamic position sizing (long/short/hold) with 19 discrete actions
+- Evaluation with test-time profit plotting
+- Binance Futures (ETHUSDT, hourly kline data, Jan–Apr 2025)
 
 ---
 
-## 🧠 Model Description
+## Model Description
 
 ### Agent
 - **Actor Network** outputs a probability distribution over 19 discrete actions.
@@ -50,7 +50,7 @@ This branch implements the A2C algorithm for training an agent to learn profitab
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Clone Repository
 
@@ -98,7 +98,7 @@ Outputs test results and saves plots to `/plot/`.
 
 ---
 
-## 📊 Output
+## Output
 
 After training and evaluation:
 
@@ -107,6 +107,6 @@ After training and evaluation:
 
 ---
 
-## 👨‍💻 Maintainer
+## Maintainer
 
 This project was implemented by [@hcchung1](https://github.com/hcchung1) for the 2025 Artificial Intelligence Final Project.
