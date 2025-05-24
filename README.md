@@ -1,14 +1,113 @@
-# Cryptocurrency Price Forecasting
-## 2025 人工智慧概論期末專題  Introduction to A.I. Final Project
-### Arthur: Henry Chung(鍾承翰), Eric Chen(陳景寬), 范伯綱, Patrick Wu
+# Cryptocurrency Price Forecasting using Reinforcement Learning
 
+This project applies reinforcement learning — specifically **Advantage Actor-Critic (A2C)** — to forecast cryptocurrency price trends and simulate trading strategies. The environment is custom-built based on historical **ETHUSDT** futures market data from Binance.
 
-### Requirements: Pytorch, ... see more in `requirements.txt`
-### Environments:
-
-- Python 3.10
-- Gym Environment
+## 📁 Branch: `Model-A2C`
+This branch implements the A2C algorithm for training an agent to learn profitable trading behaviors in a simulated crypto market.
 
 ---
-Data Source: [Binance API](https://github.com/binance/binance-public-data)
 
+## 📌 Features
+
+- ✅ Custom `gym`-based trading environment (`trading_env.py`)
+- ✅ Advantage Actor-Critic (A2C) training architecture (`A2C.py`)
+- ✅ Dynamic position sizing (long/short/hold) with 19 discrete actions
+- ✅ Evaluation with test-time profit plotting
+- ✅ Thunder Compute & GPU-compatible training
+- ✅ Binance Futures (ETHUSDT, hourly kline data, Jan–Apr 2025)
+
+---
+
+## 🧠 Model Description
+
+### Agent
+- **Actor Network** outputs a probability distribution over 19 discrete actions.
+- **Critic Network** estimates state-value function \( V(s) \) to guide policy gradients.
+- Trained using A2C with entropy regularization for exploration.
+
+### Environment (`TradingEnv`)
+- Observation:  
+  Shape: `(48×4 + 4 + 48,) = 292`  
+  Includes price-based features, unrealized profit, current asset, cash, position, and volume.
+
+- Action Space:  
+  19 discrete values ranging from -5 to +5 (position scaling).
+
+- Reward:  
+  Proportional to future price gain over a 3-tick latency period.
+
+---
+
+## 🚀 Quick Start
+
+### 1. Clone Repository
+
+```bash
+git clone --branch Model-A2C https://github.com/hcchung1/Cryptocurrency_Price_Forecasting.git
+cd Cryptocurrency_Price_Forecasting
+````
+
+### 2. Install Requirements
+
+```bash
+pip install -r requirements.txt
+```
+
+or manually:
+
+```bash
+pip install torch gym pandas matplotlib tensorboard
+```
+
+### 3. Setup `gym-futures-trading` environment
+
+```bash
+git clone https://github.com/leafoliage/gym-futures-trading.git
+cd gym-futures-trading
+git checkout dev
+pip install -e .
+```
+
+### 4. Run Training (Optional)
+
+```bash
+python A2C.py
+```
+
+This will train the A2C agent on the `futures1-v0` environment (Jan 2025 ETHUSDT).
+
+### 5. Run Evaluation Only
+
+```bash
+python A2C.py  # evaluation is embedded after training
+```
+
+Outputs test results and saves plots to `/plot/`.
+
+---
+
+## 📊 Output
+
+After training and evaluation:
+
+* `./Tables/` will contain saved model weights (`A2C_actor_best.pt`, `A2C_critic_best.pt`)
+* `./plot/` will contain profit-rate-over-time visualizations across 4 months
+
+---
+
+## 🛠️ TODO / Notes
+
+* [ ] Full compatibility with `gym==0.26+` step API (`done`, `truncated`)
+* [ ] Vectorized training support (`SyncVectorEnv`)
+* [ ] Performance optimization (batch processing, GPU utilization)
+* [ ] Logging via TensorBoard
+
+---
+
+## 👨‍💻 Maintainer
+
+This project was implemented by [@hcchung1](https://github.com/hcchung1) for the 2025 Artificial Intelligence Final Project.
+
+If you're reading this as a teammate or TA — welcome! You can focus on `A2C.py`, `trading_env.py`, and the generated plots for demonstration.
+
+```
