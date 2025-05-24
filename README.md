@@ -9,23 +9,14 @@ This branch implements the A2C algorithm for training an agent to learn profitab
 
 <table>
   <tr>
-    <td align="center"><img src="./plot/A2C_actor_best_1.png" width="300"/><br>Month 1</td>
-    <td align="center"><img src="./plot/A2C_actor_best_2.png" width="300"/><br>Month 2</td>
+    <td align="center"><img src="./imgs/train_by_1/A2C_actor_best_1.png" width="300"/><br>January</td>
+    <td align="center"><img src="./imgs/train_by_1/A2C_actor_best_2.png" width="300"/><br>February</td>
   </tr>
   <tr>
-    <td align="center"><img src="./plot/A2C_actor_best_3.png" width="300"/><br>Month 3</td>
-    <td align="center"><img src="./plot/A2C_actor_best_4.png" width="300"/><br>Month 4</td>
+    <td align="center"><img src="./imgs/train_by_1/A2C_actor_best_3.png" width="300"/><br>March</td>
+    <td align="center"><img src="./imgs/train_by_1/A2C_actor_best_4.png" width="300"/><br>April</td>
   </tr>
 </table>
-
-### 📈 Profit Rate Results (training with data of Jan, 2025)
-
-| Month | Plot |
-|-------|------|
-| Jan   | ![](./imgs/train_by_1/A2C_actor_best_1.png) |
-| Feb   | ![](./imgs/train_by_1/A2C_actor_best_2.png) |
-| Mar   | ![](./imgs/train_by_1/A2C_actor_best_3.png) |
-| Apr   | ![](./imgs/train_by_1/A2C_actor_best_4.png) |
 
 ---
 
