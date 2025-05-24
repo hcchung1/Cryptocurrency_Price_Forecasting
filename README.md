@@ -26,7 +26,6 @@ This branch implements the A2C algorithm for training an agent to learn profitab
 - ✅ Advantage Actor-Critic (A2C) training architecture (`A2C.py`)
 - ✅ Dynamic position sizing (long/short/hold) with 19 discrete actions
 - ✅ Evaluation with test-time profit plotting
-- ✅ Thunder Compute & GPU-compatible training
 - ✅ Binance Futures (ETHUSDT, hourly kline data, Jan–Apr 2025)
 
 ---
