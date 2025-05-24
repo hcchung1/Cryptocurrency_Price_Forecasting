@@ -107,7 +107,3 @@ After training and evaluation:
 ## 👨‍💻 Maintainer
 
 This project was implemented by [@hcchung1](https://github.com/hcchung1) for the 2025 Artificial Intelligence Final Project.
-
-If you're reading this as a teammate or TA — welcome! You can focus on `A2C.py`, `trading_env.py`, and the generated plots for demonstration.
-
-```
