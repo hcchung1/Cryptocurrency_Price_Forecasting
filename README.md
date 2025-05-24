@@ -109,6 +109,6 @@ After training and evaluation:
 
 ## Maintainer
 
-This project was implemented by [@hcchung1](https://github.com/hcchung1) for the 2025 Artificial Intelligence Final Project. 
+This project was implemented by [@hcchung1](https://github.com/hcchung1) for the Intro. to AI 2025 Final Project. 
 
 Also welcome to take a look of [my personal website](https://hcchung1.github.io).
