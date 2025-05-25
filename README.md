@@ -47,7 +47,7 @@ pip install -r requirements.txt
 ### 3  Install gym-futures-trading
 
 ```bash
-git clone https://github.com/leafoliage/gym-futures-trading.git
+git clone https://github.com/ericchen1121/gym-futures-trading.git
 cd gym-futures-trading
 git checkout dev
 pip install -e .
