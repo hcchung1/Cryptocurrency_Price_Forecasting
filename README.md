@@ -9,6 +9,26 @@
 Data Source: [Binance API](https://github.com/binance/binance-public-data)
 
 ---
+
+## Trading Profit Rate (ETHUSDT, Jan – Apr 2025)
+
+|             |              |
+| ----------- | ------------ |
+| **January** | **February** |
+| **March**   | **April**    |
+
+---
+
+## Features
+
+- Custom `` trading environment (`trading_env.py`)
+- **Deep Q-Network** training script (`DQN.py`)
+- Replay buffer with prioritized sampling and soft-update target network
+- 19 discrete trading actions (scalable long/short & hold)
+- Evaluation mode with test-time profit plots
+- Compatible with hourly ETHUSDT Binance Futures klines (Jan–Apr 2025)
+
+---
 ## Quick Start
 
 ### 1  Clone the Repository
