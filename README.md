@@ -56,7 +56,7 @@ In this project, we primarily focus on DQN for its simplicity and compatibility 
 
 ## Features
 
-- Custom `` trading environment (`trading_env.py`)
+- Custom trading environment (`trading_env.py`)
 - **Deep Q-Network** training script (`DQN.py`)
 - Replay buffer with prioritized sampling and soft-update target network
 - 19 discrete trading actions (scalable long/short & hold)
