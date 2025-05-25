@@ -38,7 +38,7 @@ A2C is better at handling continuous action spaces and naturally models stochast
 
 ---
 
-We implemented both DQN and A2C models, and here we provide an explanation of DQN.
+We implemented both DQN and A2C models, and here we provide how to use DQN.py.
 
 ---
 
