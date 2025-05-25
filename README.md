@@ -112,3 +112,20 @@ After training and evaluation:
 This project was implemented by [@hcchung1](https://github.com/hcchung1) for the Intro. to Artificial Intelligence 2025 Final Project. 
 
 Also welcome to take a look of [my personal website](https://hcchung1.github.io).
+
+---
+
+## Reference
+
+### Algorithm
+
+[Actor-Critic A2C](https://blog.csdn.net/qq_44949041/article/details/130529916)
+
+### Data Source
+
+[Binance API](https://github.com/binance/binance-public-data)
+
+### Related Projects
+
+- [AI-2024-Final-Project](https://github.com/Otmeal/AI-2024-final-project)
+- [gym Future Trading Environment](https://github.com/leafoliage/gym-futures-trading/tree/dev)
