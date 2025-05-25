@@ -38,7 +38,7 @@ A2C is better at handling continuous action spaces and naturally models stochast
 
 ---
 
-In this project, we primarily focus on DQN for its simplicity and compatibility with discrete action sets. However, users are encouraged to explore the A2C branch for comparison or further experimentation.
+We implemented both DQN and A2C models, and here we provide an explanation of DQN.
 
 ---
 
