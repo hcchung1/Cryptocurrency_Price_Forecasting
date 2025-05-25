@@ -6,7 +6,9 @@
 ### Requirements: Pytorch
 ### Environments: Python 3.10
 ---
+
 Data Source: [Binance API](https://github.com/binance/binance-public-data)
+
 ---
 
 ## Algorithm Overview
