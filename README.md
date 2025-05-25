@@ -11,12 +11,14 @@ Data Source: [Binance API](https://github.com/binance/binance-public-data)
 ---
 
 ## Trading Profit Rate (ETHUSDT, Jan – Apr 2025)
-| -------------------------- | --------------------------- |
-| **January** | **February** |
+
 | ![January](./plot/reward_curve1.png) | ![February](./plot/reward_curve2.png) |
 | -------------------------- | --------------------------- |
-| **March**   | **April**    |
+| **January** | **February** |
+
 | ![March](./plot/reward_curve3.png)   | ![April](./plot/reward_curve4.png)    |
+| -------------------------- | --------------------------- |
+| **March**   | **April**    |
 
 ---
 
