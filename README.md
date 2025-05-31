@@ -56,7 +56,7 @@ We implemented both DQN and A2C models, and here we provide how to use DQN.py.
 
 ## Features
 
-- Custom trading environment (`trading_env.py`)
+- Custom trading environment (`trading_env.py`) [trading_env Repository](https://github.com/leafoliage/gym-futures-trading/tree/dev#)
 - **Deep Q-Network** training script (`DQN.py`)
 - Replay buffer with prioritized sampling and soft-update target network
 - 19 discrete trading actions (scalable long/short & hold)
