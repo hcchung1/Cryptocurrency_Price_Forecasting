@@ -102,5 +102,5 @@ def test(env):
 
 
 if __name__ == "__main__":
-    env = gym.make('futures1-v0')
+    env = gym.make('futures4-v0')
     test(env)
